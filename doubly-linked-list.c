@@ -186,7 +186,33 @@ void printList(headNode* h) {
  */
 int insertLast(headNode* h, int key) {
 
+	listNode* n1 = (listNode*)malloc(sizeof(listNode)); // 동적할당을 이용하여 n1 노드를 생성
+	listNode* cur = h->first; // 탐색할 때 사용하는 노드를 가리키는 포인터 cur을 헤더노드가 가리키는 값으로 설정
+	listNode* stocur = NULL; // cur이전노드를 저장하는 노드를 가리키는 포인터 stocur을 생성 후 초기화
+
+	n1->key = key;//n1의 key값에 매개변수로 가져온 key값을 저장
+
+	if (h->first == NULL)//첫번째 헤더노드가 가리키는 값이 NULL이라면, 즉 노드가 없는 상태라면
+	{
+		n1->llink = h; // n1의 llink가 h를 가리키게 하고
+		n1->rlink = NULL;//n1의 rlink가 NULL을 가리키게함
+		h->first = n1;//h가 n1을 가리키게함
+		return 0;
+	}
+	while (cur != NULL) // cur의 값이 NULL일 때까지 반복
+	{
+		stocur = cur; // 이전값을 저장하는 포인터에 현재 cur을 저장
+		cur = cur->rlink; // cur을 cur의 rlink가 가리키는 노드로 변경
+	}
+
+	n1->rlink = cur; // n1의 rlink가 cur을 가리키게 함. 여기서 cur은 while문을 거치며 NULL값이 됨 즉, n1노드를 마지막 노드로 설정
+	n1->llink = stocur; // n1의 llink가 stocur을 가리키게함.
+	stocur->rlink = n1; // stocur의 rlink가 n1을 가리키게함.
+
+
 	return 0;
+
+
 }
 
 
