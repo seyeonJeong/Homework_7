@@ -55,6 +55,7 @@ int main()
 	char command;
 	int key;
 	headNode* headnode=NULL;
+	printf("[----- [Á¤¼¼¿¬] [2018038027] -----]\n");
 
 	do{
 		printf("----------------------------------------------------------------\n");
