@@ -256,13 +256,35 @@ int deleteLast(headNode* h) {
  * list 처음에 key에 대한 노드하나를 추가
  */
 int insertFirst(headNode* h, int key) {
+
+	listNode* node = (listNode*)malloc(sizeof(listNode)); // 동적할당을 이용하여 노드생성
+	node->key = key; // 노드의 key값에 매개변수로 받은 key값을 대입
+	node->rlink = h->first; // node 노드가 헤더노드가 가리키는 노드를 가리키게함
+	h->first = node; // 헤더노드가 node를 가리키게함.
+
 	return 0;
+
 }
 
 /**
  * list의 첫번째 노드 삭제
  */
 int deleteFirst(headNode* h) {
+	listNode* storage; // 노드를 가리키는 포인터를 정의, 삭제할 노드를 저장하는 용도
+	if (h->first == NULL) // 만약 헤더노드가 가리키는 노드가 NULL일 경우 (노드가 없을 경우)
+	{
+		printf("삭제할 노드가 없습니다.\n");
+		return 0;
+	}
+	else
+	{
+		storage = h->first; // 삭제할 노드를 저장 첫번째 노드를 삭제해야하므로 헤더노드가 가리키는 노드를 저장
+		h->first = h->first->rlink; // 헤더노드가 가리키는 노드를 헤더노드가 가리키는 노드의 rlink로 가리키는 노드로 변경 (두번째 노드를 첫번째 노드의 역할을 하게 만드는 작업)
+		return 0;
+	}
+	storage->rlink = NULL; // 삭제할 노드의 rlink값을 NULL로 변경
+	storage->llink = NULL; // 삭제할 노드의 llink값을 NULL로 변경
+	free(storage); // 노드를 해제
 
 	return 0;
 }
