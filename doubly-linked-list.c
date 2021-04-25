@@ -68,6 +68,7 @@ int main()
 		printf("----------------------------------------------------------------\n");
 
 		printf("Command = ");
+		fflush(stdout);
 		scanf(" %c", &command);
 
 		switch(command) {
@@ -79,16 +80,19 @@ int main()
 			break;
 		case 'i': case 'I':
 			printf("Your Key = ");
+			fflush(stdout);
 			scanf("%d", &key);
 			insertNode(headnode, key);
 			break;
 		case 'd': case 'D':
 			printf("Your Key = ");
+			fflush(stdout);
 			scanf("%d", &key);
 			deleteNode(headnode, key);
 			break;
 		case 'n': case 'N':
 			printf("Your Key = ");
+			fflush(stdout);
 			scanf("%d", &key);
 			insertLast(headnode, key);
 			break;
@@ -97,6 +101,7 @@ int main()
 			break;
 		case 'f': case 'F':
 			printf("Your Key = ");
+			fflush(stdout);
 			scanf("%d", &key);
 			insertFirst(headnode, key);
 			break;
@@ -121,11 +126,32 @@ int main()
 
 
 int initialize(headNode** h) {
+	//headNode가 NULL이 아니면, freeNode를 호출하여 *h에 할당된 메모리 모두 해제
+	if (*h != NULL)
+	{
+		freeList(*h);
+	}
+	//headNode에 대한 메모리를 *h에 할당
+	*h = (headNode*)malloc(sizeof(headNode));
+	(*h)->first = NULL;
 
-	return 1;
+
+	return (*h);
+
 }
 
 int freeList(headNode* h){
+	listNode* p = h->first; // p는 헤더노드가 가리키는 노드이다.
+
+	listNode* prev = NULL;
+	while (p != NULL) {//노드가 NULL이 아닐 때까지(가장 마지막 노드까지)
+		prev = p;//p의 이전노드를 prev에 저장
+		p = p->rlink;//p가 가리키는 노드를 p로 바꿔준다.
+		prev->llink = prev;//prev의 llink값을 자기자신으로 바꿔준다.
+		prev->rlink = prev;//prev의 rlink값을 자기자신으로 바꿔준다.
+		free(prev);//prev를 해제시킴
+	}
+	free(h); //헤더노드를 해제시킴
 	return 0;
 }
 
